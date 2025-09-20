@@ -21,6 +21,21 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/contact_book")
+@app.route("/contact_book", methods=["GET", "POST"])
 def contact_book():
-    return render_template("contacts.html")
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        email = request.form.get("email", "").strip()
+        phone = request.form.get("phone", "").strip()
+
+        if name:
+            new_contact = Contact(name=name, email=email, phone=phone)
+            db.session.add(new_contact)
+            db.session.commit()
+
+    contacts = Contact.query.order_by(Contact.created_at.desc()).all()
+    return render_template("contacts.html", contacts=contacts)
+
+
+# TODO: add phone field to contacts page
+# TODO: Add in feature to edit/delete contacts
