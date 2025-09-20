@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block title %}Contacts - My App{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/contacts.css') }}">
+{% endblock %}
+
+{% block body %}
+  <section class="hero stack center">
+    <span class="eyebrow">Address book</span>
+    <h1>Contact Book</h1>
+    <p>Keep track of names and emails. Add the backend when you’re ready.</p>
+  </section>
+
+  <section class="stack">
+    <div class="card">
+      <h2>Add Contact</h2>
+      <form class="stack form-grid" method="post" action="">
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" placeholder="Ada Lovelace" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="ada@example.com" required>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" type="submit">Add</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card stack">
+      <div class="list-header">
+        <h2>All Contacts</h2>
+      </div>
+
+      {# Render a table if `contacts` is provided by your route #}
+      {% if contacts and contacts|length %}
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th class="right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for c in contacts %}
+              <tr>
+                <td>{{ c.name }}</td>
+                <td>{{ c.email }}</td>
+                <td class="right">
+                  <a class="chip" href="#">Edit</a>
+                  <a class="chip danger" href="#">Delete</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="muted">No contacts yet. Add your first one above.</p>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
+

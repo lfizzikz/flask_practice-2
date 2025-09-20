@@ -1,0 +1,63 @@
+/* Page-specific styles for Contact Book */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .form-grid { grid-template-columns: 1fr 1fr auto; align-items: end; }
+}
+
+.field { display: grid; gap: 6px; }
+.field label { font-weight: 700; font-size: 14px; color: var(--text); }
+
+input[type="text"], input[type="email"] {
+  appearance: none;
+  background: color-mix(in oklab, var(--surface) 92%, transparent);
+  border: 1px solid color-mix(in oklab, var(--muted) 18%, transparent);
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: var(--text);
+}
+input::placeholder { color: color-mix(in oklab, var(--muted) 70%, transparent); }
+input:focus { outline: none; box-shadow: 0 0 0 4px var(--ring); border-color: transparent; }
+
+.actions { display: flex; gap: 10px; justify-content: flex-start; }
+
+.list-header { display: flex; align-items: center; justify-content: space-between; }
+
+/* Table */
+.table-wrap { width: 100%; overflow: auto; border-radius: 10px; }
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { padding: 12px 14px; text-align: left; }
+.table thead th {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  background: color-mix(in oklab, var(--surface) 90%, transparent);
+}
+.table tbody tr { border-top: 1px solid color-mix(in oklab, var(--muted) 18%, transparent); }
+.table tbody tr:hover { background: color-mix(in oklab, var(--surface) 95%, transparent); }
+.right { text-align: right; }
+
+/* Chips for actions */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--surface) 92%, transparent);
+  border: 1px solid color-mix(in oklab, var(--muted) 18%, transparent);
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 12px;
+}
+.chip:hover { background: color-mix(in oklab, var(--surface) 98%, transparent); }
+.chip.danger { border-color: color-mix(in oklab, #ef4444 40%, transparent); color: #ef9a9a; }
+
+.muted { color: var(--muted); }
+

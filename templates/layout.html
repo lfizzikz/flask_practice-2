@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}My App{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="{{ url_for('index') }}">My App</a>
+        <nav class="nav">
+          <a href="#">Docs</a>
+          <a href="#">Things I've Built</a>
+          <a href="{{ url_for('contact_book') }}">Contact Book</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container main">{% block body %}{% endblock %}</main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© <span id="year">2025</span> My First Flask App</p>
+      </div>
+    </footer>
+  </body>
+</html>
