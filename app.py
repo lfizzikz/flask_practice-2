@@ -37,5 +37,23 @@ def contact_book():
     return render_template("contacts.html", contacts=contacts)
 
 
-# TODO: add phone field to contacts page
-# TODO: Add in feature to edit/delete contacts
+@app.route("/contact_book/delete_contact/<int:contact_id>", methods=["POST"])
+def delete_contact(contact_id: int):
+    contact = db.session.get(Contact, contact_id)
+    if contact is not None:
+        db.session.delete(contact)
+        db.session.commit()
+    return redirect(url_for("contact_book"))
+
+
+@app.route("/contact_book/edit_contact/<int:contact_id>", methods=["POST"])
+def edit_contact(contact_id: int):
+    contact = db.session.get(Contact, contact_id)
+    if not contact:
+        return redirect(url_for("index"))
+    if request.method == "POST":
+        contact.name = request.form["name"].strip()
+        contact.email = request.form.get("email", "").strip() or None
+        contact.phone = request.form.get("phone", "").strip() or None
+        db.session.commit()
+        return redirect(url_for("contact_book"))

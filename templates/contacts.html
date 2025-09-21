@@ -26,8 +26,8 @@
           <input id="email" name="email" type="email" placeholder="ada@example.com" required>
         </div>
         <div class="field">
-          <label for="name">Phone</label>
-          <input id="phone" name="phone" type="phone" placeholder="(123)456-7890" required>
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" placeholder="(123) 456-7890">
         </div>
         <div class="actions">
           <button class="btn btn-primary" type="submit">Add</button>
@@ -48,19 +48,49 @@
               <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Phone</th>
                 <th class="right">Actions</th>
               </tr>
             </thead>
             <tbody>
               {% for c in contacts %}
-              <tr>
-                <td>{{ c.name }}</td>
-                <td>{{ c.email }}</td>
-                <td class="right">
-                  <a class="chip" href="#">Edit</a>
-                  <a class="chip danger" href="#">Delete</a>
-                </td>
-              </tr>
+                {% if request.args.get('edit')|int == c.id %}
+                  <tr class="editing">
+                    <td colspan="4">
+                      <form class="inline-edit" method="post" action="{{ url_for('edit_contact', contact_id=c.id) }}">
+                        <div class="edit-grid">
+                          <input name="name" type="text" value="{{ c.name }}" required>
+                          <input name="email" type="email" value="{{ c.email }}">
+                          <input name="phone" type="tel" value="{{ c.phone }}">
+                          <div class="actions">
+                            <button class="btn btn-primary" type="submit">Save</button>
+                            <a class="chip" href="{{ url_for('contact_book') }}">Cancel</a>
+                          </div>
+                        </div>
+                      </form>
+                    </td>
+                  </tr>
+                {% else %}
+                  <tr>
+                    <td>{{ c.name }}</td>
+                    <td>{{ c.email }}</td>
+                    <td>
+                      {# Display phone as (xxx) xxx-xxxx when 10 digits #}
+                      {% set p = (c.phone ~ '') %}
+                      {% if p|length == 10 %}
+                        ({{ p[:3] }}) {{ p[3:6] }}-{{ p[6:] }}
+                      {% else %}
+                        {{ c.phone }}
+                      {% endif %}
+                    </td>
+                    <td class="right">
+                      <a class="chip" href="{{ url_for('contact_book', edit=c.id) }}">Edit</a>
+                      <form method="post" action="{{ url_for('delete_contact', contact_id=c.id) }}" class="inline-form">
+                        <button type="submit" class="chip danger" onclick="return confirm('Delete this contact?')">Delete</button>
+                      </form>
+                    </td>
+                  </tr>
+                {% endif %}
               {% endfor %}
             </tbody>
           </table>
@@ -71,4 +101,3 @@
     </div>
   </section>
 {% endblock %}
-

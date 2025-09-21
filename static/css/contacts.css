@@ -25,7 +25,7 @@
 
 input[type="text"],
 input[type="email"],
-input[type="phone"] {
+input[type="tel"] {
   appearance: none;
   background: color-mix(in oklab, var(--surface) 92%, transparent);
   border: 1px solid color-mix(in oklab, var(--muted) 18%, transparent);
@@ -110,3 +110,16 @@ input:focus {
 .muted {
   color: var(--muted);
 }
+
+.inline-form {
+  display: inline;
+  margin: 0;
+}
+
+/* Inline edit row */
+.inline-edit { margin: 0; }
+.edit-grid { display: grid; gap: 10px; grid-template-columns: 1fr; }
+@media (min-width: 700px) {
+  .edit-grid { grid-template-columns: 1fr 1fr 1fr auto; align-items: center; }
+}
+.editing td { background: color-mix(in oklab, var(--surface) 95%, transparent); }
